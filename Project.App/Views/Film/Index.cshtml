@@ -1,0 +1,46 @@
+@using Project.Entities.Concrete
+@model IEnumerable<Film>
+
+@{
+    ViewData["Title"] = "Films";
+}
+
+<h2>Films</h2>
+
+<p>
+    <a href="@Url.Action("Create", "Film")" class="btn btn-primary">Add New Film</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Year</th>
+            <th>Time</th>
+            <th>Rate</th>
+            <th>Director ID</th>
+            <th>Director Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var film in Model)
+    {
+        <tr>
+            <td>@film.Title</td>
+            <td>@film.Description</td>
+            <td>@film.Year</td>
+            <td>@film.Time</td>
+            <td>@film.Rate</td>
+            <td>@film.DirectorId</td>
+            <td>@film.DirectorName</td>
+            <td>
+                <a href="@Url.Action("Details", "Film", new { id = film.FilmId })" class="btn btn-info">Details</a>
+                <a href="@Url.Action("Edit", "Film", new { id = film.FilmId })" class="btn btn-warning">Edit</a>
+                <a href="@Url.Action("Delete", "Film", new { id = film.FilmId })" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

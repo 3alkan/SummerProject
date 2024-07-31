@@ -1,0 +1,15 @@
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\bin\Debug\net8.0\Project.Entities.deps.json
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\bin\Debug\net8.0\Project.Entities.dll
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\bin\Debug\net8.0\Project.Entities.pdb
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\bin\Debug\net8.0\Project.Core.dll
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\bin\Debug\net8.0\Project.Core.pdb
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\obj\Debug\net8.0\Project.Entities.csproj.AssemblyReference.cache
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\obj\Debug\net8.0\Project.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\obj\Debug\net8.0\Project.Entities.AssemblyInfoInputs.cache
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\obj\Debug\net8.0\Project.Entities.AssemblyInfo.cs
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\obj\Debug\net8.0\Project.Entities.csproj.CoreCompileInputs.cache
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\obj\Debug\net8.0\Project..86ED2479.Up2Date
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\obj\Debug\net8.0\Project.Entities.dll
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\obj\Debug\net8.0\refint\Project.Entities.dll
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\obj\Debug\net8.0\Project.Entities.pdb
+C:\Users\3alka\Masaustu\Staj\dotnet\SummerProject\Project.Entities\obj\Debug\net8.0\ref\Project.Entities.dll
