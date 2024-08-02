@@ -7,8 +7,9 @@
 <h2>Film Details</h2>
 
 <div>
-    <h4>@Model.Title</h4>
     <dl class="dl-horizontal">
+        <dt>Title</dt>
+        <dd>@Model.Title</dd>
         <dt>Description</dt>
         <dd>@Model.Description</dd>
         <dt>Year</dt>
@@ -17,14 +18,16 @@
         <dd>@Model.Time</dd>
         <dt>Rate</dt>
         <dd>@Model.Rate</dd>
-        <dt>Director ID</dt>
-        <dd>@Model.DirectorId</dd>
         <dt>Director Name</dt>
         <dd>@Model.DirectorName</dd>
     </dl>
 </div>
 
-<p>
-    <a href="@Url.Action("Edit", "Film", new { id = Model.FilmId })" class="btn btn-warning">Edit</a>
+<div>
+    <a href="@Url.Action("Update", "Film", new { id = Model.FilmId })" class="btn btn-warning">Edit</a>
+    <form asp-action="Delete" asp-controller="Film" method="post" class="d-inline">
+        <input type="hidden" name="id" value="@Model.FilmId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
     <a href="@Url.Action("Index", "Film")" class="btn btn-primary">Back to List</a>
-</p>
+</div>

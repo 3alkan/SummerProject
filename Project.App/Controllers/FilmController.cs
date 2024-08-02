@@ -4,8 +4,7 @@ using Project.Entities.Concrete;
 
 namespace Project.App.Controllers
 {
-    [Route("api/[controller]s")]
-    [ApiController]
+    [Route("films")]
     public class FilmController : Controller
     {
         private readonly IFilmService _filmService;
@@ -15,14 +14,15 @@ namespace Project.App.Controllers
             _filmService = filmService;
         }
 
-        [HttpGet]
+        // [GET] Get All Films
+        [HttpGet()]
         public IActionResult Index()
         {
             var films = _filmService.GetAll();
             return View(films);
         }
-
-        [HttpGet("{id}")]
+        // [GET] Get film by id
+        [HttpGet("details/{id}")]
         public IActionResult Details(int id)
         {
             var film = _filmService.GetById(id);
@@ -33,8 +33,15 @@ namespace Project.App.Controllers
             return View(film);
         }
 
-        [HttpPost]
-        public IActionResult Create([FromForm] Film film)
+        // return add view
+        [HttpGet("add")]
+        public IActionResult Add()
+        {
+            return View();
+        }
+        // [POST] Add new film
+        [HttpPost("add")]
+        public IActionResult Add([FromForm] Film film)
         {
             if (film == null)
             {
@@ -44,8 +51,20 @@ namespace Project.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // return edit view
+        [HttpGet("edit/{id}")]
+        public IActionResult Update(int id)
+        {
+            var film = _filmService.GetById(id);
+            if (film == null)
+            {
+                return NotFound();
+            }
+            return View("Edit", film);
+        }
 
-        [HttpPut("{id}")]
+        // [PUT] update a film
+        [HttpPost("edit/{id}")]
         public IActionResult Update(int id, [FromForm] Film film)
         {
             if (film == null || film.FilmId != id)
@@ -57,19 +76,34 @@ namespace Project.App.Controllers
             {
                 return NotFound();
             }
-            _filmService.Update(film);
+            existingFilm.Title=film.Title;
+            existingFilm.Description=film.Description;
+            existingFilm.Year=film.Year;
+            existingFilm.Time=film.Time;
+            existingFilm.Rate=film.Rate;
+            existingFilm.DirectorId=film.DirectorId;
+            existingFilm.DirectorName=film.DirectorName;
+
+            _filmService.Update(existingFilm);
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpPost("delete")]
+        public IActionResult Delete([FromForm] int id)
         {
-            var film = _filmService.GetById(id);
-            if (film == null)
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var existingFilm = _filmService.GetById(id);
+            if (existingFilm == null)
             {
                 return NotFound();
             }
-            _filmService.Delete(film);
+
+            _filmService.Delete(existingFilm);
+
             return RedirectToAction(nameof(Index));
         }
 
