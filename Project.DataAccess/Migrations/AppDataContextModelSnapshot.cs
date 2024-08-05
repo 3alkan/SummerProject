@@ -8,8 +8,8 @@ using Project.DataAccess.Concrete;
 
 namespace Project.DataAccess.Migrations
 {
-    [DbContext(typeof(FilmContext))]
-    partial class FilmContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AppDataContext))]
+    partial class AppDataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,29 @@ namespace Project.DataAccess.Migrations
                     b.HasKey("FilmId");
 
                     b.ToTable("Films");
+                });
+
+            modelBuilder.Entity("Project.Entities.Concrete.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

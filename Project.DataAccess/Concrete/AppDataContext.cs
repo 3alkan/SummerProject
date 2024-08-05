@@ -4,11 +4,12 @@ using System.IO;
 
 namespace Project.DataAccess.Concrete
 {
-    public class FilmContext : DbContext
+    public class AppDataContext : DbContext
     {
         public DbSet<Film> Films { get; set; }
+        public DbSet<User> Users{ get; set; }
 
-        public FilmContext(DbContextOptions<FilmContext> options) : base(options)
+        public AppDataContext(DbContextOptions<AppDataContext> options) : base(options)
         {
         }
 

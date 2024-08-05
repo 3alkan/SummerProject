@@ -6,7 +6,7 @@ namespace Project.DataAccess.Concrete.EntityFramework
 {
     public class EfFilmDal : EfEntityRepositoryBase<Film>, IFilmDal
     {
-        public EfFilmDal(FilmContext context) : base(context)
+        public EfFilmDal(AppDataContext context) : base(context)
         {
         }
     }

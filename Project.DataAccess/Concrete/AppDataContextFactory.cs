@@ -5,9 +5,9 @@ using System.IO;
 
 namespace Project.DataAccess.Concrete
 {
-    public class FilmContextFactory : IDesignTimeDbContextFactory<FilmContext>
+    public class AppDataContextFactory : IDesignTimeDbContextFactory<AppDataContext>
     {
-        public FilmContext CreateDbContext(string[] args)
+        public AppDataContext CreateDbContext(string[] args)
         {
             // Build configuration
             var basePath = Path.Combine(Directory.GetCurrentDirectory(), "../Project.App");
@@ -17,11 +17,11 @@ namespace Project.DataAccess.Concrete
                 .Build();
 
             // Create options builder
-            var optionsBuilder = new DbContextOptionsBuilder<FilmContext>();
-            optionsBuilder.UseSqlite(configuration.GetConnectionString("FilmDbFactory"));
+            var optionsBuilder = new DbContextOptionsBuilder<AppDataContext>();
+            optionsBuilder.UseSqlite(configuration.GetConnectionString("AppDataDbFactory"));
 
             // Create and return context
-            return new FilmContext(optionsBuilder.Options);
+            return new AppDataContext(optionsBuilder.Options);
         }
     }
 }

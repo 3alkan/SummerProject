@@ -9,8 +9,8 @@ using Project.DataAccess.Concrete;
 
 namespace Project.DataAccess.Migrations
 {
-    [DbContext(typeof(FilmContext))]
-    [Migration("20240731172351_InitialCreate")]
+    [DbContext(typeof(AppDataContext))]
+    [Migration("20240805171418_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -52,6 +52,29 @@ namespace Project.DataAccess.Migrations
                     b.HasKey("FilmId");
 
                     b.ToTable("Films");
+                });
+
+            modelBuilder.Entity("Project.Entities.Concrete.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

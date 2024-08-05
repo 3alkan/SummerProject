@@ -11,11 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<FilmContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("FilmDb")));
+builder.Services.AddDbContext<AppDataContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("AppDataDb")));
 
 builder.Services.AddScoped<IFilmDal, EfFilmDal>();
 builder.Services.AddScoped<IFilmService, FilmManager>();
+builder.Services.AddScoped<IUserDal, EfUserDal>();
+builder.Services.AddScoped<IUserService, UserManager>();
 
 var app = builder.Build();
 
