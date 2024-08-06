@@ -8,5 +8,8 @@ namespace Project.Entities.Concrete
         public string Username { get; set;}
         public string Email{ get; set;}
         public string Password{ get; set;}
+        public List<Review> Reviews { get; set; } = new List<Review>();
+        public List<WillWatchedFilm> WatchList{ get; set; }= new List<WillWatchedFilm>();
+        public List<WatchedFilm> WatchedFilms{ get; set; }=new List<WatchedFilm>();
     }
 }

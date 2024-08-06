@@ -13,7 +13,7 @@ namespace Project.DataAccess.Concrete
             var basePath = Path.Combine(Directory.GetCurrentDirectory(), "../Project.App");
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(basePath)
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
             // Create options builder
