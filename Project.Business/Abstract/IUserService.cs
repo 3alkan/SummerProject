@@ -1,5 +1,7 @@
 using Project.Entities.Concrete;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+
 
 namespace Project.Business.Abstract
 {
@@ -9,6 +11,7 @@ namespace Project.Business.Abstract
         void Update(User user);
         void Delete(User user);
         User GetById(int id);
-        List<User> GetAll();
+        List<User> GetAll(Expression<Func<User, bool>> filter = null);
+        User Get(Expression<Func<User, bool>> filter);
     }
 }

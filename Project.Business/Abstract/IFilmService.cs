@@ -1,5 +1,7 @@
 using Project.Entities.Concrete;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+
 
 namespace Project.Business.Abstract
 {
@@ -9,6 +11,8 @@ namespace Project.Business.Abstract
         void Update(Film film);
         void Delete(Film film);
         Film GetById(int id);
-        List<Film> GetAll();
+        List<Film> GetAll(Expression<Func<Film, bool>> filter = null);
+        Film Get(Expression<Func<Film, bool>> filter);
+
     }
 }

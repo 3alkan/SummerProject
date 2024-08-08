@@ -2,6 +2,7 @@ using Project.Business.Abstract;
 using Project.DataAccess.Abstract;
 using Project.Entities.Concrete;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Project.Business.Concrete
 {
@@ -34,9 +35,14 @@ namespace Project.Business.Concrete
             return _userDal.GetById(id);
         }
 
-        public List<User> GetAll()
+        public List<User> GetAll(Expression<Func<User, bool>> filter = null)
         {
-            return _userDal.GetAll();
+            return _userDal.GetAll(filter);
+        }
+
+        public User Get(Expression<Func<User, bool>> filter)
+        {
+            return _userDal.Get(filter);
         }
     }
 }

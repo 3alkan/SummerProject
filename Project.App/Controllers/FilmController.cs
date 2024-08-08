@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Project.Business.Abstract;
 using Project.Entities.Concrete;
+using Project.App.Models;
 
 namespace Project.App.Controllers
 {
@@ -8,20 +9,21 @@ namespace Project.App.Controllers
     public class FilmController : Controller
     {
         private readonly IFilmService _filmService;
+        private readonly IDirectorService _directorService;
 
-        public FilmController(IFilmService filmService)
+        public FilmController(IFilmService filmService, IDirectorService directorService)
         {
             _filmService = filmService;
+            _directorService = directorService;
         }
 
-        // [GET] Get All Films
         [HttpGet()]
         public IActionResult Index()
         {
             var films = _filmService.GetAll();
             return View(films);
         }
-        // [GET] Get film by id
+
         [HttpGet("details/{id}")]
         public IActionResult Details(int id)
         {
@@ -33,23 +35,49 @@ namespace Project.App.Controllers
             return View(film);
         }
 
-        // return add view
         [HttpGet("add")]
         public IActionResult Add()
         {
-            return View();
+            var model = new FilmAddViewModel();
+            return View(model);
         }
+
         // [POST] Add new film
         [HttpPost("add")]
-        public IActionResult Add([FromForm] Film film)
+        public IActionResult Add([FromForm] FilmAddViewModel model)
         {
-            if (film == null)
+            if (Request.Form["search"] == "true")
             {
-                return BadRequest();
+                // Perform director search
+                model.Directors = _directorService.GetAll(d => d.Name == model.DirectorName);
+                return View(model); // Re-render the form with the updated director list
             }
-            _filmService.Add(film);
+
+            // Handle director selection or creation
+            if (model.Film.DirectorId == 0)
+            {
+                if (model.DirectorName == "")
+                {
+                    return BadRequest();
+                }
+                var selectedDirector = _directorService.Get(d => d.Name == model.DirectorName);
+                // Create new director if not found
+                if (selectedDirector == null)
+                {
+                    var newDirector = new Director { Name = model.DirectorName };
+                    _directorService.Add(newDirector);
+                    model.Film.DirectorId = newDirector.DirectorId; // Assign new director ID to film
+                }
+                else
+                {
+                    model.Film.DirectorId = selectedDirector.DirectorId;
+                }
+            }
+
+            _filmService.Add(model.Film);
             return RedirectToAction(nameof(Index));
         }
+
 
         // return edit view
         [HttpGet("edit/{id}")]
@@ -76,13 +104,13 @@ namespace Project.App.Controllers
             {
                 return NotFound();
             }
-            existingFilm.Title=film.Title;
+            /* existingFilm.Title=film.Title;
             existingFilm.Description=film.Description;
             existingFilm.Year=film.Year;
             existingFilm.Time=film.Time;
             existingFilm.Rate=film.Rate;
             existingFilm.DirectorId=film.DirectorId;
-            existingFilm.DirectorName=film.DirectorName;
+            existingFilm.DirectorName=film.DirectorName; */
 
             _filmService.Update(existingFilm);
             return RedirectToAction(nameof(Index));

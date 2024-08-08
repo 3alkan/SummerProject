@@ -1,16 +1,13 @@
 using Project.Core.DataAccess.EntityFramework;
 using Project.DataAccess.Abstract;
 using Project.Entities.Concrete;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Project.DataAccess.Concrete.EntityFramework
 {
-    public class EfFilmDal : EfEntityRepositoryBase<Film>, IFilmDal
+    public class EfReviewDal : EfEntityRepositoryBase<Review>, IReviewDal
     {
-        public EfFilmDal(AppDataContext context) : base(context)
+        public EfReviewDal(AppDataContext context) : base(context)
         {
-         
         }
     }
 }

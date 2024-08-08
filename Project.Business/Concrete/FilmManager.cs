@@ -2,6 +2,7 @@ using Project.Business.Abstract;
 using Project.DataAccess.Abstract;
 using Project.Entities.Concrete;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Project.Business.Concrete
 {
@@ -34,9 +35,15 @@ namespace Project.Business.Concrete
             return _filmDal.GetById(id);
         }
 
-        public List<Film> GetAll()
+        public List<Film> GetAll(Expression<Func<Film, bool>> filter = null)
         {
-            return _filmDal.GetAll();
+            return _filmDal.GetAll(filter);
         }
+
+        public Film Get(Expression<Func<Film, bool>> filter)
+        {
+            return _filmDal.Get(filter);
+        }
+
     }
 }

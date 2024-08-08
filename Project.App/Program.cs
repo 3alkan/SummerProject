@@ -16,8 +16,23 @@ builder.Services.AddDbContext<AppDataContext>(options =>
 
 builder.Services.AddScoped<IFilmDal, EfFilmDal>();
 builder.Services.AddScoped<IFilmService, FilmManager>();
+
 builder.Services.AddScoped<IUserDal, EfUserDal>();
 builder.Services.AddScoped<IUserService, UserManager>();
+
+builder.Services.AddScoped<IDirectorDal, EfDirectorDal>();
+builder.Services.AddScoped<IDirectorService, DirectorManager>();
+
+builder.Services.AddScoped<IReviewDal, EfReviewDal>();
+builder.Services.AddScoped<IReviewService, ReviewManager>();
+
+builder.Services.AddScoped<IWatchedFilmDal, EfWatchedFilmDal>();
+builder.Services.AddScoped<IWatchedFilmService, WatchedFilmManager>();
+
+builder.Services.AddScoped<IWillWatchedFilmDal, EfWillWatchedFilmDal>();
+builder.Services.AddScoped<IWillWatchedFilmService, WillWatchedFilmManager>();
+
+
 
 var app = builder.Build();
 
