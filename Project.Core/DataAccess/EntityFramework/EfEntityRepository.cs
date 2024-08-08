@@ -42,16 +42,38 @@ namespace Project.Core.DataAccess.EntityFramework
             return _entities.Find(id);
         }
 
-        public List<T> GetAll(Expression<Func<T, bool>> filter = null)
+        public List<T> GetAll(Expression<Func<T, bool>> filter = null, List<Expression<Func<T, object>>> includes = null)
         {
-            return filter == null
-                ? _entities.ToList()
-                : _entities.Where(filter).ToList();
+            IQueryable<T> query=_entities;
+            if (includes != null && includes.Any())
+            {
+                foreach (var include in includes)
+                {
+                    query=query.Include(include);
+                }
+            }
+            if (filter != null)
+            {
+                query=query.Where(filter);
+            }
+            return query.ToList();
         }
 
-        public T Get(Expression<Func<T, bool>> filter)
+        public T Get(Expression<Func<T, bool>> filter = null, List<Expression<Func<T, object>>> includes = null)
         {
-            return _entities.SingleOrDefault(filter);
+            IQueryable<T> query=_entities;
+            if (includes != null && includes.Any())
+            {
+                foreach (var include in includes)
+                {
+                    query=query.Include(include);
+                }
+            }
+            if (filter != null)
+            {
+                query=query.Where(filter);
+            }
+            return query.FirstOrDefault();
         }
 
     }
