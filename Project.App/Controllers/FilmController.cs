@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Business.Abstract;
 using Project.Entities.Concrete;
 using Project.App.Models;
+using System.Linq.Expressions;
 
 namespace Project.App.Controllers
 {
@@ -20,8 +21,24 @@ namespace Project.App.Controllers
         [HttpGet()]
         public IActionResult Index()
         {
-            var films = _filmService.GetAll();
-            return View(films);
+            var includes = new List<Expression<Func<Film, object>>>
+            {
+                f=>f.Director
+            };
+
+            var films = _filmService.GetAll(includes:includes);
+            List<FilmIndexViewModel> filmModels=new List<FilmIndexViewModel>();
+            foreach(var film in films){
+                filmModels.Add(new FilmIndexViewModel
+                {
+                    FilmId=film.FilmId,
+                    Title=film.Title,
+                    Description=film.Description,
+                    Year=film.Year,
+                    DirectorName=film.Director.Name
+                });
+            }
+            return View(filmModels);
         }
 
         [HttpGet("details/{id}")]

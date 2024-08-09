@@ -1,5 +1,5 @@
 @using Project.Entities.Concrete
-@model IEnumerable<Film>
+@model IEnumerable<FilmIndexViewModel>
 
 @{
     ViewData["Title"] = "Films";
@@ -28,7 +28,7 @@
                 <td>@film.Title</td>
                 <td>@film.Description</td>
                 <td>@film.Year</td>
-                <td>@film.Director.Name</td>
+                <td>@film.DirectorName</td>
                 <td>
                     <a href="@Url.Action("Details", "Film", new { id = film.FilmId })" class="btn btn-info">Details</a>
                     <a href="@Url.Action("Update", "Film", new { id = film.FilmId })" class="btn btn-warning">Edit</a>
