@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Project.Business.Abstract;
 using Project.Entities.Concrete;
 using Project.App.Models;
@@ -65,16 +66,16 @@ namespace Project.App.Controllers
         public IActionResult Add([FromForm] FilmAddViewModel model)
         {
             model.Message = "";
+            if (string.IsNullOrWhiteSpace(model.DirectorName) || model.DirectorName.Length < 3)
+            {
+                model.Message = "Director name can not be empty or shorter than 3 characters";
+                return View(model);
+            }
+
             if (Request.Form["search"] == "true")
             {
-                // Perform director search
-                if (string.IsNullOrWhiteSpace(model.DirectorName) || model.DirectorName.Length < 3)
-                {
-                    model.Message = "To search, director's name must be at least 3 characters";
-                    return View(model);
-                }
-                // in here search database !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                model.Directors = _directorService.GetAll(d => d.Name == model.DirectorName);
+                // searching
+                model.Directors = _directorService.GetAll(d => EF.Functions.Like(d.Name, $"%{model.DirectorName}%"));
                 if (!model.Directors.Any())
                 {
                     model.Message = "No match found with " + model.DirectorName;
@@ -84,11 +85,6 @@ namespace Project.App.Controllers
             // Handle director selection or creation
             if (model.Film.DirectorId == 0)
             {
-                if (string.IsNullOrWhiteSpace(model.DirectorName) || model.DirectorName.Length < 3)
-                {
-                    model.Message="Director name can not be empty or shorter than 3 characters";
-                    return View(model);
-                }
                 var selectedDirector = _directorService.Get(d => d.Name == model.DirectorName);
                 // Create new director if not found
                 if (selectedDirector == null)
