@@ -23,14 +23,14 @@ namespace Project.Business.Concrete{
             _watchedFilmDal.Delete(watchedFilm);
         }
 
-        public WatchedFilm Get(Expression<Func<WatchedFilm, bool>> filter)
+        public List<WatchedFilm> GetAll(Expression<Func<WatchedFilm, bool>> filter = null, List<Expression<Func<WatchedFilm, object>>> includes = null)
         {
-            return _watchedFilmDal.Get(filter);
+            return _watchedFilmDal.GetAll(filter,includes);
         }
 
-        public List<WatchedFilm> GetAll(Expression<Func<WatchedFilm, bool>> filter = null)
+        public WatchedFilm Get(Expression<Func<WatchedFilm, bool>> filter, List<Expression<Func<WatchedFilm, object>>> includes = null)
         {
-            return _watchedFilmDal.GetAll(filter);
+            return _watchedFilmDal.Get(filter,includes);
         }
 
         public List<Film> GetByUserId(int userId)

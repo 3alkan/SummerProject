@@ -23,14 +23,14 @@ namespace Project.Business.Concrete
             _reviewDal.Delete(review);
         }
 
-        public Review Get(Expression<Func<Review, bool>> filter)
+        public List<Review> GetAll(Expression<Func<Review, bool>> filter = null, List<Expression<Func<Review, object>>> includes = null)
         {
-            return _reviewDal.Get(filter);
+            return _reviewDal.GetAll(filter,includes);
         }
 
-        public List<Review> GetAll(Expression<Func<Review, bool>> filter = null)
+        public Review Get(Expression<Func<Review, bool>> filter, List<Expression<Func<Review, object>>> includes = null)
         {
-            return _reviewDal.GetAll(filter);
+            return _reviewDal.Get(filter,includes);
         }
 
         public Review GetById(int id)

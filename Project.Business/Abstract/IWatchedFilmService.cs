@@ -11,7 +11,7 @@ namespace Project.Business.Abstract
         void Update(WatchedFilm watchedFilm);
         void Delete(WatchedFilm watchedFilm);
         List<Film> GetByUserId(int userId);
-        List<WatchedFilm> GetAll(Expression<Func<WatchedFilm, bool>> filter = null);
-        WatchedFilm Get(Expression<Func<WatchedFilm, bool>> filter);
+        List<WatchedFilm> GetAll(Expression<Func<WatchedFilm, bool>> filter = null,List<Expression<Func<WatchedFilm, object>>> includes = null);
+        WatchedFilm Get(Expression<Func<WatchedFilm, bool>> filter,List<Expression<Func<WatchedFilm, object>>> includes = null);
     }
 }

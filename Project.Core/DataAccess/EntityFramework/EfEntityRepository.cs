@@ -8,12 +8,12 @@ using Project.Core.Entities;
 
 namespace Project.Core.DataAccess.EntityFramework
 {
-    public class EfEntityRepositoryBase<T> : IEntityRepository<T> where T : class, IEntity, new()
+    public class EfEntityRepository<T> : IEntityRepository<T> where T : class, IEntity, new()
     {
         private readonly DbContext _context;
         private readonly DbSet<T> _entities;
 
-        public EfEntityRepositoryBase(DbContext context)
+        public EfEntityRepository(DbContext context)
         {
             _context = context;
             _entities = _context.Set<T>();

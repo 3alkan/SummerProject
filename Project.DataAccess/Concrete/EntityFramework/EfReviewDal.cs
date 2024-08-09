@@ -4,7 +4,7 @@ using Project.Entities.Concrete;
 
 namespace Project.DataAccess.Concrete.EntityFramework
 {
-    public class EfReviewDal : EfEntityRepositoryBase<Review>, IReviewDal
+    public class EfReviewDal : EfEntityRepository<Review>, IReviewDal
     {
         public EfReviewDal(AppDataContext context) : base(context)
         {

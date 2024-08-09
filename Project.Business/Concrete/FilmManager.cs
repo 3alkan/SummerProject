@@ -35,15 +35,14 @@ namespace Project.Business.Concrete
             return _filmDal.GetById(id);
         }
 
-        public List<Film> GetAll(Expression<Func<Film, bool>> filter = null)
+        public List<Film> GetAll(Expression<Func<Film, bool>> filter = null, List<Expression<Func<Film, object>>> includes = null)
         {
-            return _filmDal.GetAll(filter);
+            return _filmDal.GetAll(filter,includes);
         }
 
-        public Film Get(Expression<Func<Film, bool>> filter)
+        public Film Get(Expression<Func<Film, bool>> filter, List<Expression<Func<Film, object>>> includes = null)
         {
-            return _filmDal.Get(filter);
+            return _filmDal.Get(filter,includes);
         }
-
     }
 }

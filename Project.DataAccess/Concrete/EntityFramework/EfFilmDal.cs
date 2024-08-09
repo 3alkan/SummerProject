@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Project.DataAccess.Concrete.EntityFramework
 {
-    public class EfFilmDal : EfEntityRepositoryBase<Film>, IFilmDal
+    public class EfFilmDal : EfEntityRepository<Film>, IFilmDal
     {
         public EfFilmDal(AppDataContext context) : base(context)
         {

@@ -23,14 +23,14 @@ namespace Project.Business.Concrete{
             _directorDal.Delete(director);
         }
 
-        public Director Get(Expression<Func<Director, bool>> filter)
+        public Director Get(Expression<Func<Director, bool>> filter, List<Expression<Func<Director, object>>> includes = null)
         {
-            return _directorDal.Get(filter);
+            return _directorDal.Get(filter,includes);
         }
 
-        public List<Director> GetAll(Expression<Func<Director, bool>> filter = null)
+        public List<Director> GetAll(Expression<Func<Director, bool>> filter = null, List<Expression<Func<Director, object>>> includes = null)
         {
-            return _directorDal.GetAll(filter);
+            return _directorDal.GetAll(filter,includes);
         }
 
         public Director GetById(int id)

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Project.DataAccess.Concrete.EntityFramework
 {
-    public class EfWatchedFilmDal : EfEntityRepositoryBase<WatchedFilm>, IWatchedFilmDal
+    public class EfWatchedFilmDal : EfEntityRepository<WatchedFilm>, IWatchedFilmDal
     {
         private readonly AppDataContext _context;
         public EfWatchedFilmDal(AppDataContext context) : base(context)

@@ -35,14 +35,14 @@ namespace Project.Business.Concrete
             return _userDal.GetById(id);
         }
 
-        public List<User> GetAll(Expression<Func<User, bool>> filter = null)
+        public List<User> GetAll(Expression<Func<User, bool>> filter = null, List<Expression<Func<User, object>>> includes = null)
         {
-            return _userDal.GetAll(filter);
+            return _userDal.GetAll(filter,includes);
         }
 
-        public User Get(Expression<Func<User, bool>> filter)
+        public User Get(Expression<Func<User, bool>> filter, List<Expression<Func<User, object>>> includes = null)
         {
-            return _userDal.Get(filter);
+            return _userDal.Get(filter,includes);
         }
     }
 }

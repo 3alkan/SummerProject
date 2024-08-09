@@ -11,7 +11,7 @@ namespace Project.Business.Abstract
         void Update(Director director);
         void Delete(Director director);
         Director GetById(int id);
-        List<Director> GetAll(Expression<Func<Director, bool>> filter = null);
-        Director Get(Expression<Func<Director, bool>> filter);
+        List<Director> GetAll(Expression<Func<Director, bool>> filter = null,List<Expression<Func<Director, object>>> includes = null);
+        Director Get(Expression<Func<Director, bool>> filter,List<Expression<Func<Director, object>>> includes = null);
     }
 }

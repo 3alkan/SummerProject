@@ -11,7 +11,7 @@ namespace Project.Business.Abstract
         void Update(User user);
         void Delete(User user);
         User GetById(int id);
-        List<User> GetAll(Expression<Func<User, bool>> filter = null);
-        User Get(Expression<Func<User, bool>> filter);
+        List<User> GetAll(Expression<Func<User, bool>> filter = null,List<Expression<Func<User, object>>> includes = null);
+        User Get(Expression<Func<User, bool>> filter,List<Expression<Func<User, object>>> includes = null);
     }
 }
