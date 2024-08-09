@@ -7,6 +7,7 @@ namespace Project.App.Models
         public Film Film { get; set; }
         public string DirectorName { get; set; }
         public List<Director> Directors { get; set; } = new List<Director>();
+        public string Message{ get; set; }="";
 
     }
 }

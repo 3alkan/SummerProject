@@ -26,16 +26,17 @@ namespace Project.App.Controllers
                 f=>f.Director
             };
 
-            var films = _filmService.GetAll(includes:includes);
-            List<FilmIndexViewModel> filmModels=new List<FilmIndexViewModel>();
-            foreach(var film in films){
+            var films = _filmService.GetAll(includes: includes);
+            List<FilmIndexViewModel> filmModels = new List<FilmIndexViewModel>();
+            foreach (var film in films)
+            {
                 filmModels.Add(new FilmIndexViewModel
                 {
-                    FilmId=film.FilmId,
-                    Title=film.Title,
-                    Description=film.Description,
-                    Year=film.Year,
-                    DirectorName=film.Director.Name
+                    FilmId = film.FilmId,
+                    Title = film.Title,
+                    Description = film.Description,
+                    Year = film.Year,
+                    DirectorName = film.Director.Name
                 });
             }
             return View(filmModels);
@@ -63,19 +64,30 @@ namespace Project.App.Controllers
         [HttpPost("add")]
         public IActionResult Add([FromForm] FilmAddViewModel model)
         {
+            model.Message = "";
             if (Request.Form["search"] == "true")
             {
                 // Perform director search
+                if (string.IsNullOrWhiteSpace(model.DirectorName) || model.DirectorName.Length < 3)
+                {
+                    model.Message = "To search, director's name must be at least 3 characters";
+                    return View(model);
+                }
+                // in here search database !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 model.Directors = _directorService.GetAll(d => d.Name == model.DirectorName);
+                if (!model.Directors.Any())
+                {
+                    model.Message = "No match found with " + model.DirectorName;
+                }
                 return View(model); // Re-render the form with the updated director list
             }
-
             // Handle director selection or creation
             if (model.Film.DirectorId == 0)
             {
-                if (model.DirectorName == "")
+                if (string.IsNullOrWhiteSpace(model.DirectorName) || model.DirectorName.Length < 3)
                 {
-                    return BadRequest();
+                    model.Message="Director name can not be empty or shorter than 3 characters";
+                    return View(model);
                 }
                 var selectedDirector = _directorService.Get(d => d.Name == model.DirectorName);
                 // Create new director if not found

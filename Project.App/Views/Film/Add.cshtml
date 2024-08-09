@@ -28,14 +28,14 @@
         <span asp-validation-for="Film.Time" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="DirectorName" class="control-label"></label>
+        <label asp-for="DirectorName" class="control-label">Director Name</label>
         <input asp-for="DirectorName" class="form-control" />
         <button type="submit" name="search" value="true" class="btn btn-secondary mt-2">Search Director</button>
     </div>
     <div class="form-group">
-        <label asp-for="Film.DirectorId" class="control-label"></label>
+        <label asp-for="Film.DirectorId" class="control-label">Directors</label>
         <select asp-for="Film.DirectorId" class="form-control">
-            <option value="">-- Select Director --</option>
+            <option value="" disabled selected>-- Select Director --</option>
             @foreach (var director in Model.Directors)
             {
                 <option value="@director.DirectorId">@director.Name</option>
@@ -48,3 +48,9 @@
 
     </div>
 </form>
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert alert-info mt-2">
+        @Model.Message
+    </div>
+}
