@@ -11,7 +11,8 @@
           "Microsoft.EntityFrameworkCore.Design": "8.0.7",
           "Microsoft.EntityFrameworkCore.Sqlite": "8.0.7",
           "Project.Business": "1.0.0",
-          "Project.DataAccess": "1.0.0"
+          "Project.DataAccess": "1.0.0",
+          "Project.Entities": "1.0.0"
         },
         "runtime": {
           "Project.App.dll": {}

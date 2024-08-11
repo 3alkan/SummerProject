@@ -2912,7 +2912,8 @@
       "Microsoft.EntityFrameworkCore.Design >= 8.0.7",
       "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.7",
       "Project.Business >= 1.0.0",
-      "Project.DataAccess >= 1.0.0"
+      "Project.DataAccess >= 1.0.0",
+      "Project.Entities >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2945,6 +2946,9 @@
             },
             "C:\\Users\\3alka\\Masaustu\\Github\\SummerProject\\Project.DataAccess\\Project.DataAccess.csproj": {
               "projectPath": "C:\\Users\\3alka\\Masaustu\\Github\\SummerProject\\Project.DataAccess\\Project.DataAccess.csproj"
+            },
+            "C:\\Users\\3alka\\Masaustu\\Github\\SummerProject\\Project.Entities\\Project.Entities.csproj": {
+              "projectPath": "C:\\Users\\3alka\\Masaustu\\Github\\SummerProject\\Project.Entities\\Project.Entities.csproj"
             }
           }
         }

@@ -4,6 +4,7 @@ using Project.Business.Abstract;
 using Project.Entities.Concrete;
 using Project.App.Models;
 using System.Linq.Expressions;
+using System;
 
 namespace Project.App.Controllers
 {
@@ -46,7 +47,10 @@ namespace Project.App.Controllers
         [HttpGet("details/{id}")]
         public IActionResult Details(int id)
         {
-            var film = _filmService.GetById(id);
+            Expression<Func<Film, bool>> filter = f => f.FilmId == id;
+            var includes = new List<Expression<Func<Film, object>>> { f => f.Director, f => f.Reviews };
+
+            var film = _filmService.Get(filter, includes);
             if (film == null)
             {
                 return NotFound();
@@ -65,14 +69,13 @@ namespace Project.App.Controllers
         [HttpPost("add")]
         public IActionResult Add([FromForm] FilmAddViewModel model)
         {
-            model.Message = "";
             if (string.IsNullOrWhiteSpace(model.DirectorName) || model.DirectorName.Length < 3)
             {
                 model.Message = "Director name can not be empty or shorter than 3 characters";
                 return View(model);
             }
 
-            if (Request.Form["search"] == "true")
+            if (Request.Form["searchDirectorBtn"] == "clicked")
             {
                 // searching
                 model.Directors = _directorService.GetAll(d => EF.Functions.Like(d.Name, $"%{model.DirectorName}%"));
@@ -108,36 +111,110 @@ namespace Project.App.Controllers
         [HttpGet("edit/{id}")]
         public IActionResult Update(int id)
         {
-            var film = _filmService.GetById(id);
+            Expression<Func<Film, bool>> filter = f => f.FilmId == id;
+            var includes = new List<Expression<Func<Film, object>>> { f => f.Director };
+            var film = _filmService.Get(filter, includes);
             if (film == null)
             {
                 return NotFound();
             }
-            return View("Edit", film);
+            var editModel = new FilmEditViewModel
+            {
+                FilmId = film.FilmId,
+                Title = film.Title,
+                Description = film.Description,
+                Year = film.Year,
+                Time = film.Time,
+                OriginalDirectorId = film.DirectorId,
+                OriginalDirectorName = film.Director.Name,
+                NewDirectorName = "",
+                NewDirectorId = 0,
+                ShowSearchDirector = false,
+                Message = ""
+            };
+            return View("Edit", editModel);
         }
 
         // [PUT] update a film
         [HttpPost("edit/{id}")]
-        public IActionResult Update(int id, [FromForm] Film film)
+        public IActionResult Update(int id, [FromForm] FilmEditViewModel model)
         {
-            if (film == null || film.FilmId != id)
-            {
-                return BadRequest();
-            }
-            var existingFilm = _filmService.GetById(id);
-            if (existingFilm == null)
+            if (model == null || model.FilmId != id)
             {
                 return NotFound();
             }
-            /* existingFilm.Title=film.Title;
-            existingFilm.Description=film.Description;
-            existingFilm.Year=film.Year;
-            existingFilm.Time=film.Time;
-            existingFilm.Rate=film.Rate;
-            existingFilm.DirectorId=film.DirectorId;
-            existingFilm.DirectorName=film.DirectorName; */
+            if(Request.Form[nameof(model.ShowSearchDirector)] == "true"){
+                model.ShowSearchDirector = true;
+            }
+            else{
+                model.ShowSearchDirector = false;
+            }
 
-            _filmService.Update(existingFilm);
+            if (Request.Form["ChangeDirector"] == "ChangeDirector")
+            {
+                model.ShowSearchDirector = true;
+                return View("Edit", model);
+            }
+
+            if (Request.Form["SearchDirector"] == "SearchDirector")
+            {
+                //model.ChangeDirector = "true";
+                if (string.IsNullOrWhiteSpace(model.NewDirectorName) || model.NewDirectorName.Length < 3)
+                {
+                    model.Message = "Director name can not be empty or shorter than 3 characters";
+                    return View("Edit", model);
+                }
+                // searching
+                model.Directors = _directorService.GetAll(d => EF.Functions.Like(d.Name, $"%{model.NewDirectorName}%"));
+                if (model.Directors == null || model.Directors.Count == 0)
+                {
+                    model.Message = "No match found with " + model.NewDirectorName;
+                }
+                return View("Edit", model);
+            }
+            if (Request.Form["Save"] == "Save")
+            {
+                if (model.ShowSearchDirector == true)
+                {
+                    if (model.NewDirectorId == 0)
+                    {
+                        if (string.IsNullOrWhiteSpace(model.NewDirectorName) || model.NewDirectorName.Length < 3)
+                        {
+                            model.Message = "Director name can not be empty or shorter than 3 characters";
+                            return View("Edit", model);
+                        }
+                        var selectedDirector = _directorService.Get(d => d.Name == model.NewDirectorName);
+                        // Create new director if not found
+                        if (selectedDirector == null)
+                        {
+                            var newDirector = new Director { Name = model.NewDirectorName };
+                            _directorService.Add(newDirector);
+                            model.NewDirectorId = newDirector.DirectorId; // Assign new director ID to film
+                        }
+                        else
+                        {
+                            model.NewDirectorId = selectedDirector.DirectorId;
+                        }
+                    }
+                }
+
+                var existingFilm = _filmService.GetById(id);
+                if (existingFilm == null)
+                {
+                    return NotFound();
+                }
+                existingFilm.Title = model.Title;
+                existingFilm.Description = model.Description;
+                existingFilm.Year = model.Year;
+                existingFilm.Time = model.Time;
+                if (model.ShowSearchDirector == true)
+                {
+                    existingFilm.DirectorId = model.NewDirectorId;
+
+                }
+
+                _filmService.Update(existingFilm);
+            }
             return RedirectToAction(nameof(Index));
         }
 

@@ -244,8 +244,8 @@ C:\Users\3alka\Masaustu\Github\SummerProject\Project.App\bin\Debug\net8.0\Projec
 C:\Users\3alka\Masaustu\Github\SummerProject\Project.App\bin\Debug\net8.0\Project.Entities.dll
 C:\Users\3alka\Masaustu\Github\SummerProject\Project.App\bin\Debug\net8.0\Project.DataAccess.pdb
 C:\Users\3alka\Masaustu\Github\SummerProject\Project.App\bin\Debug\net8.0\Project.Business.pdb
-C:\Users\3alka\Masaustu\Github\SummerProject\Project.App\bin\Debug\net8.0\Project.Core.pdb
 C:\Users\3alka\Masaustu\Github\SummerProject\Project.App\bin\Debug\net8.0\Project.Entities.pdb
+C:\Users\3alka\Masaustu\Github\SummerProject\Project.App\bin\Debug\net8.0\Project.Core.pdb
 C:\Users\3alka\Masaustu\Github\SummerProject\Project.App\obj\Debug\net8.0\Project.App.csproj.AssemblyReference.cache
 C:\Users\3alka\Masaustu\Github\SummerProject\Project.App\obj\Debug\net8.0\Project.App.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\3alka\Masaustu\Github\SummerProject\Project.App\obj\Debug\net8.0\Project.App.AssemblyInfoInputs.cache

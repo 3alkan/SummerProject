@@ -1,4 +1,5 @@
-@model Project.Entities.Concrete.Film
+@using System;
+@model FilmEditViewModel
 
 @{
     ViewData["Title"] = "Edit Film";
@@ -6,8 +7,11 @@
 
 <h2>Edit Film</h2>
 
-<form asp-action="Update">
+<form asp-action="Update" asp-asp-controller="Film" method="post">
     <input type="hidden" asp-for="FilmId" />
+    <input type="hidden" asp-for="OriginalDirectorId" />
+    <input type="hidden" asp-for="OriginalDirectorName" />
+    <input type="hidden" name="@nameof(Model.ShowSearchDirector)" value="@Model.ShowSearchDirector.ToString().ToLower()" />
     <div class="form-group">
         <label asp-for="Title" class="control-label"></label>
         <input asp-for="Title" class="form-control" />
@@ -29,18 +33,48 @@
         <span asp-validation-for="Time" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Rate" class="control-label"></label>
-        <input asp-for="Rate" class="form-control" />
-        <span asp-validation-for="Rate" class="text-danger"></span>
+        <label asp-for="OriginalDirectorName" class="control-label">Director Name</label>
+        <input asp-for="OriginalDirectorName" class="form-control" readonly />
     </div>
+    @if (Model.ShowSearchDirector == false)
+    {
+        <div class="form-group">
+            <button type="submit" name="ChangeDirector" value="ChangeDirector" class="btn btn-secondary mt-2">Change
+                Director</button>
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <label asp-for="NewDirectorName" class="control-label">New Director Name</label>
+            <input asp-for="NewDirectorName" class="form-control" />
+            <button type="submit" name="SearchDirector" value="SearchDirector" class="btn btn-secondary mt-2">Search
+                Director</button>
+        </div>
+        @if (Model.Directors != null && Model.Directors.Count > 0)
+        {
+            <div class="form-group">
+                <label asp-for="NewDirectorId" class="control-label">Directors</label>
+                <select asp-for="NewDirectorId" class="form-control">
+                    <option value="0" disabled selected>-- Select Director --</option>
+                    @foreach (var director in Model.Directors)
+                    {
+                        <option value="@director.DirectorId">@director.Name</option>
+                    }
+                </select>
+            </div>
+        }
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert alert-info mt-2">
+            @Model.Message
+        </div>
+    }
+
     <div class="form-group">
-        <label asp-for="DirectorId" class="control-label"></label>
-        <input asp-for="DirectorId" class="form-control" />
-        <span asp-validation-for="DirectorId" class="text-danger"></span>
-    </div>
-    
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
+        <input type="submit" name="Save" value="Save" class="btn btn-primary" />
     </div>
 </form>
 
