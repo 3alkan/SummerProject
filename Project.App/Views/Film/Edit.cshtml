@@ -11,7 +11,8 @@
     <input type="hidden" asp-for="FilmId" />
     <input type="hidden" asp-for="OriginalDirectorId" />
     <input type="hidden" asp-for="OriginalDirectorName" />
-    <input type="hidden" name="@nameof(Model.ShowSearchDirector)" value="@Model.ShowSearchDirector.ToString().ToLower()" />
+    <input type="hidden" name="@nameof(Model.ShowSearchDirector)"
+        value="@Model.ShowSearchDirector.ToString().ToLower()" />
     <div class="form-group">
         <label asp-for="Title" class="control-label"></label>
         <input asp-for="Title" class="form-control" />
@@ -19,17 +20,18 @@
     </div>
     <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
-        <input asp-for="Description" class="form-control" />
+        <textarea asp-for="Description" class="form-control"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Year" class="control-label"></label>
-        <input asp-for="Year" class="form-control" />
+        <input type="number" min="1900" max="2100" step="1" value="@(Model.Year==0?"":Model.Year)" asp-for="Year"
+            class="form-control" />
         <span asp-validation-for="Year" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Time" class="control-label"></label>
-        <input asp-for="Time" class="form-control" />
+        <input type="number" min="0" asp-for="Time" value="@(Model.Time==0?"":Model.Time)" class="form-control" />
         <span asp-validation-for="Time" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -77,9 +79,10 @@
         <input type="submit" name="Save" value="Save" class="btn btn-primary" />
     </div>
 </form>
-
-<form asp-action="Delete" asp-controller="Film" method="post" class="d-inline">
-    <input type="hidden" name="id" value="@Model.FilmId" />
-    <button type="submit" class="btn btn-danger">Delete</button>
-</form>
-<a href="@Url.Action("Index", "Film")" class="btn btn-primary">Back to List</a>
+<div>
+    <form asp-action="Delete" asp-controller="Film" method="post" class="d-inline">
+        <input type="hidden" name="id" value="@Model.FilmId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    <a href="@Url.Action("Index", "Film")" class="btn btn-primary">Back to List</a>
+</div>

@@ -17,13 +17,15 @@
         <dt>Time</dt>
         <dd>@Model.Time</dd>
         <dt>Rate</dt>
-        <dd>@Model.Rate</dd>
+        <dd>@(Model.Rate==0?"There is no review":Model.Rate)</dd>
         <dt>Director Name</dt>
         <dd>@Model.Director.Name</dd>
     </dl>
 </div>
 
 <div>
+    @* first link will shows reviews *@
+    <a href="@Url.Action("Update", "Film", new { id = Model.FilmId })" class="btn btn-warning">Reviews not implemented</a>
     <a href="@Url.Action("Update", "Film", new { id = Model.FilmId })" class="btn btn-warning">Edit</a>
     <form asp-action="Delete" asp-controller="Film" method="post" class="d-inline">
         <input type="hidden" name="id" value="@Model.FilmId" />

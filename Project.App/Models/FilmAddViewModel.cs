@@ -4,10 +4,19 @@ namespace Project.App.Models
 {
     public class FilmAddViewModel
     {
-        public Film Film { get; set; }
+        // Film details
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int Year { get; set; }
+        public int Time { get; set; }
+        public int DirectorId { get; set; }
+
+        // For search functionality
         public string DirectorName { get; set; }
         public List<Director> Directors { get; set; } = new List<Director>();
-        public string Message{ get; set; }="";
+
+        // To inform user
+        public string Message { get; set; }
 
     }
 }

@@ -8,49 +8,54 @@
 
 <form asp-action="Add" asp-controller="Film" method="post">
     <div class="form-group">
-        <label asp-for="Film.Title" class="control-label"></label>
-        <input asp-for="Film.Title" class="form-control" />
-        <span asp-validation-for="Film.Title" class="text-danger"></span>
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Film.Description" class="control-label"></label>
-        <input asp-for="Film.Description" class="form-control" />
-        <span asp-validation-for="Film.Description" class="text-danger"></span>
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Film.Year" class="control-label"></label>
-        <input asp-for="Film.Year" class="form-control" />
-        <span asp-validation-for="Film.Year" class="text-danger"></span>
+        <label asp-for="Year" class="control-label"></label>
+        <input type="number" min="1900" max="2100" step="1" value="@(Model.Year==0?"":Model.Year)" asp-for="Year"
+            class="form-control" />
+        <span asp-validation-for="Year" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Film.Time" class="control-label"></label>
-        <input asp-for="Film.Time" class="form-control" />
-        <span asp-validation-for="Film.Time" class="text-danger"></span>
+        <label asp-for="Time" class="control-label"></label>
+        <input type="number" min="0" asp-for="Time" value="@(Model.Time==0?"":Model.Time)" class="form-control" />
+        <span asp-validation-for="Time" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="DirectorName" class="control-label">Director Name</label>
         <input asp-for="DirectorName" class="form-control" />
-        <button type="submit" name="searchDirectorBtn" value="clicked" class="btn btn-secondary mt-2">Search Director</button>
+        <button type="submit" name="SearchDirector" value="SearchDirector" class="btn btn-secondary mt-2">Search
+            Director</button>
     </div>
+    @if (Model.Directors != null && Model.Directors.Count > 0)
+    {
+        <div class="form-group">
+            <label asp-for="DirectorId" class="control-label">Directors</label>
+            <select asp-for="DirectorId" class="form-control">
+                <option value="0" disabled selected>-- Select Director --</option>
+                @foreach (var director in Model.Directors)
+                {
+                    <option value="@director.DirectorId">@director.Name</option>
+                }
+            </select>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert alert-info mt-2">
+            @Model.Message
+        </div>
+    }
     <div class="form-group">
-        <label asp-for="Film.DirectorId" class="control-label">Directors</label>
-        <select asp-for="Film.DirectorId" class="form-control">
-            <option value="" disabled selected>-- Select Director --</option>
-            @foreach (var director in Model.Directors)
-            {
-                <option value="@director.DirectorId">@director.Name</option>
-            }
-        </select>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Add" class="btn btn-primary" />
+        <input type="submit" name="Add" value="Add" class="btn btn-primary" />
         <a href="@Url.Action("Index", "Film")" class="btn btn-primary">Back to List</a>
 
     </div>
 </form>
-@if (!string.IsNullOrEmpty(Model.Message))
-{
-    <div class="alert alert-info mt-2">
-        @Model.Message
-    </div>
-}

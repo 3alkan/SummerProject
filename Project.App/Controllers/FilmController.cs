@@ -75,34 +75,42 @@ namespace Project.App.Controllers
                 return View(model);
             }
 
-            if (Request.Form["searchDirectorBtn"] == "clicked")
+            if (Request.Form["SearchDirector"] == "SearchDirector")
             {
                 // searching
                 model.Directors = _directorService.GetAll(d => EF.Functions.Like(d.Name, $"%{model.DirectorName}%"));
-                if (!model.Directors.Any())
+                if (model.Directors == null || model.Directors.Count == 0)
                 {
                     model.Message = "No match found with " + model.DirectorName;
                 }
-                return View(model); // Re-render the form with the updated director list
+                return View(model);
             }
-            // Handle director selection or creation
-            if (model.Film.DirectorId == 0)
+            if (Request.Form["Add"] == "Add")
             {
-                var selectedDirector = _directorService.Get(d => d.Name == model.DirectorName);
-                // Create new director if not found
-                if (selectedDirector == null)
+                if (model.DirectorId == 0)
                 {
-                    var newDirector = new Director { Name = model.DirectorName };
-                    _directorService.Add(newDirector);
-                    model.Film.DirectorId = newDirector.DirectorId; // Assign new director ID to film
+                    var selectedDirector = _directorService.Get(d => d.Name == model.DirectorName);
+                    // Create new director if not found
+                    if (selectedDirector == null)
+                    {
+                        var newDirector = new Director { Name = model.DirectorName };
+                        _directorService.Add(newDirector);
+                        model.DirectorId = newDirector.DirectorId;
+                    }
+                    else
+                    {
+                        model.DirectorId = selectedDirector.DirectorId;
+                    }
                 }
-                else
-                {
-                    model.Film.DirectorId = selectedDirector.DirectorId;
-                }
+                var newFilm=new Film{
+                    Title=model.Title,
+                    Description=model.Description,
+                    Year=model.Year,
+                    Time=model.Time,
+                    DirectorId=model.DirectorId
+                };
+                _filmService.Add(newFilm);
             }
-
-            _filmService.Add(model.Film);
             return RedirectToAction(nameof(Index));
         }
 
@@ -143,10 +151,12 @@ namespace Project.App.Controllers
             {
                 return NotFound();
             }
-            if(Request.Form[nameof(model.ShowSearchDirector)] == "true"){
+            if (Request.Form[nameof(model.ShowSearchDirector)] == "true")
+            {
                 model.ShowSearchDirector = true;
             }
-            else{
+            else
+            {
                 model.ShowSearchDirector = false;
             }
 
