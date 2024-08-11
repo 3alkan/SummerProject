@@ -1,0 +1,36 @@
+@using Project.Entities.Concrete
+@model IEnumerable<Director>
+
+@{
+    ViewData["Title"]="Directors";
+}
+
+<h2>Directors</h2>
+
+<p>
+    <a href="@Url.Action("Add","Director")" class="btn btn-primary">Add New Director</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var director in Model){
+            <tr>
+                <td>@director.Name</td>
+                <td>
+                    <a href="@Url.Action("Details","Director",new {id=director.DirectorId})" class="btn btn-info">Director's Films</a>
+                    <a href="@Url.Action("Edit","Director",new {id=director.DirectorId})" class="btn btn-warning">Edit</a>
+                    <form asp-action="Delete" asp-controller="Director" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@director.DirectorId" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

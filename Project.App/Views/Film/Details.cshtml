@@ -24,9 +24,10 @@
 </div>
 
 <div>
-    @* first link will shows reviews *@
+    @* link will shows reviews 
     <a href="@Url.Action("Update", "Film", new { id = Model.FilmId })" class="btn btn-warning">Reviews not implemented</a>
-    <a href="@Url.Action("Update", "Film", new { id = Model.FilmId })" class="btn btn-warning">Edit</a>
+    *@
+    <a href="@Url.Action("Edit", "Film", new { id = Model.FilmId })" class="btn btn-warning">Edit</a>
     <form asp-action="Delete" asp-controller="Film" method="post" class="d-inline">
         <input type="hidden" name="id" value="@Model.FilmId" />
         <button type="submit" class="btn btn-danger">Delete</button>

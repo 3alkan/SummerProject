@@ -31,7 +31,7 @@
                 <td>@film.DirectorName</td>
                 <td>
                     <a href="@Url.Action("Details", "Film", new { id = film.FilmId })" class="btn btn-info">Details</a>
-                    <a href="@Url.Action("Update", "Film", new { id = film.FilmId })" class="btn btn-warning">Edit</a>
+                    <a href="@Url.Action("Edit", "Film", new { id = film.FilmId })" class="btn btn-warning">Edit</a>
                     <form asp-action="Delete" asp-controller="Film" method="post" class="d-inline">
                         <input type="hidden" name="id" value="@film.FilmId" />
                         <button type="submit" class="btn btn-danger">Delete</button>

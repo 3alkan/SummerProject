@@ -1,0 +1,61 @@
+@using Project.Entities.Concrete
+@model Director
+
+@{
+    ViewData["Title"] = "Director Details";
+}
+
+<h2>Director</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>Name</dt>
+        <dl>@Model.Name</dl>
+    </dl>
+</div>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Message"]
+    </div>
+}
+<h3>Direstor's Films</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Year</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var film in Model.Films)
+        {
+            <tr>
+                <td>@film.Title</td>
+                <td>@film.Description</td>
+                <td>@film.Year</td>
+                <td>
+                    <a href="@Url.Action("Details", "Film", new { id = film.FilmId })" class="btn btn-info">Details</a>
+                    <a href="@Url.Action("Update", "Film", new { id = film.FilmId })" class="btn btn-warning">Edit</a>
+                    <form asp-action="Delete" asp-controller="Film" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@film.FilmId" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a href="@Url.Action("Edit", "Director",new{id=@Model.DirectorId})" class="btn btn-warning">Edit Director</a>
+    <form asp-action="Delete" asp-controller="Director" method="post" class="d-inline">
+        <input type="hidden" name="id" value="@Model.DirectorId" />
+        <button type="submit" class="btn btn-danger">Delete Director</button>
+    </form>
+    <a href="@Url.Action("Index", "Director")" class="btn btn-primary">Back to List</a>
+</div>
