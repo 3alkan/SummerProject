@@ -1,5 +1,5 @@
 @using Project.Entities.Concrete
-@model IEnumerable<User>
+@model IEnumerable<UserIndexViewModel>
 
 @{
     ViewData["Title"] = "Users";
@@ -27,7 +27,7 @@
                 <td>@user.Email</td>
                 <td>
                     <a href="@Url.Action("Details", "User", new { id = user.UserId })" class="btn btn-info">Details</a>
-                    <a href="@Url.Action("Update", "User", new { id = user.UserId })" class="btn btn-warning">Edit</a>
+                    <a href="@Url.Action("Edit", "User", new { id = user.UserId })" class="btn btn-warning">Edit</a>
                     <form asp-action="Delete" asp-controller="User" method="post" class="d-inline">
                         <input type="hidden" name="id" value="@user.UserId" />
                         <button type="submit" class="btn btn-danger">Delete</button>

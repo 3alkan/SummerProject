@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
+using Project.App.Models;
 using Project.Business.Abstract;
 using Project.Entities.Concrete;
 
@@ -19,7 +21,17 @@ namespace Project.App.Controllers
         public IActionResult Index()
         {
             var users = _userService.GetAll();
-            return View(users);
+            var models = new List<UserIndexViewModel>();
+            foreach (var user in users)
+            {
+                models.Add(new UserIndexViewModel
+                {
+                    UserId = user.UserId,
+                    Username = user.Username,
+                    Email = user.Email
+                });
+            }
+            return View(models);
         }
         // [GET] Get user by id
         [HttpGet("details/{id}")]
@@ -30,14 +42,21 @@ namespace Project.App.Controllers
             {
                 return NotFound();
             }
-            return View(user);
+            var model = new UserDetailsViewModel
+            {
+                UserId = user.UserId,
+                Username = user.Username,
+                Email = user.Email
+            };
+            return View(model);
         }
 
         // return add view
         [HttpGet("add")]
         public IActionResult Add()
         {
-            return View();
+            var user = new User();
+            return View(user);
         }
         // [POST] Add new user
         [HttpPost("add")]
@@ -47,38 +66,84 @@ namespace Project.App.Controllers
             {
                 return BadRequest();
             }
-            _userService.Add(user);
+            if (string.IsNullOrEmpty(user.Username) || user.Username.Length < 3)
+            {
+                ViewBag.Message = "Username can not be empty and must be at least 3 characters";
+                return View(user);
+            }
+            var existingUser = _userService.Get(u => u.Username == user.Username);
+            if (existingUser != null)
+            {
+                ViewBag.Message = "Already exist a user with this username";
+                return View(user);
+            }
+            else
+            {
+                _userService.Add(user);
+            }
             return RedirectToAction(nameof(Index));
         }
 
         // return edit view
         [HttpGet("edit/{id}")]
-        public IActionResult Update(int id)
+        public IActionResult Edit(int id)
         {
             var user = _userService.GetById(id);
             if (user == null)
             {
                 return NotFound();
             }
-            return View("Edit", user);
+            var model = new UserEditViewModel
+            {
+                UserId = user.UserId,
+                Username = user.Username,
+                Email = user.Email,
+                OldPassword = "",
+                NewPassword = "",
+                Message = ""
+            };
+            return View(model);
         }
 
         // [PUT] update a user
         [HttpPost("edit/{id}")]
-        public IActionResult Update(int id, [FromForm] User user)
+        public IActionResult Edit(int id, [FromForm] UserEditViewModel model)
         {
-            if (user == null || user.UserId != id)
+            if (model == null || model.UserId != id)
             {
                 return BadRequest();
             }
+            // check for username
+            Expression<Func<User, bool>> filter = u => u.UserId != model.UserId && u.Username == model.Username;
+            var usersWithUsername = _userService.GetAll(filter);
+            if (usersWithUsername != null && usersWithUsername.Count > 0)
+            {
+                model.Message = "Already exist a user with this username";
+                model.OldPassword = "";
+                model.NewPassword = "";
+                return View(model);
+            }
+            // check for password
             var existingUser = _userService.GetById(id);
             if (existingUser == null)
             {
                 return NotFound();
             }
-            existingUser.Username=user.Username;
-            existingUser.Email=user.Email;
-            existingUser.Password=user.Password;
+            if (!string.IsNullOrEmpty(model.OldPassword))
+            {
+                if (existingUser.Password != model.OldPassword)
+                {
+                    model.Message = "Wrong Old Password!";
+                    model.OldPassword = "";
+                    model.NewPassword = "";
+                    return View(model);
+                }
+                else{
+                    existingUser.Password=model.NewPassword;
+                }
+            }
+            existingUser.Username = model.Username;
+            existingUser.Email = model.Email;
 
             _userService.Update(existingUser);
             return RedirectToAction(nameof(Index));

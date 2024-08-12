@@ -1,4 +1,4 @@
-@model Project.Entities.Concrete.User
+@model UserDetailsViewModel
 
 @{
     ViewData["Title"] = "User Details";
@@ -14,12 +14,16 @@
         <dd>@Model.Email</dd>
     </dl>
 </div>
-
 <div>
-    <a href="@Url.Action("Update", "User", new { id = Model.UserId })" class="btn btn-warning">Edit</a>
+    <a href="@Url.Action("Reviews", "User", new { id = Model.UserId })" class="btn btn-primary">Reviews</a>
+    <a href="@Url.Action("WatchList", "User", new { id = Model.UserId })" class="btn btn-primary">Watchlist</a>
+    <a href="@Url.Action("WatchedFilms", "User", new { id = Model.UserId })" class="btn btn-primary">Watched Films</a>
+</div>
+<div>
+    <a href="@Url.Action("Edit", "User", new { id = Model.UserId })" class="btn btn-warning">Edit User / Change Password</a>
     <form asp-action="Delete" asp-controller="User" method="post" class="d-inline">
         <input type="hidden" name="id" value="@Model.UserId" />
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>
-    <a href="@Url.Action("Index", "User")" class="btn btn-primary">Back to List</a>
+    <a href="@Url.Action("Index", "User")" class="btn btn-secondary">Back to List</a>
 </div>
